@@ -413,7 +413,7 @@ void remove_person_index(Person** list, const int index)
     remove_before(list);
     return;
   }
-  else if(index == number - 1)
+  else if(index == number)
   {
     remove_after(list);
     return;

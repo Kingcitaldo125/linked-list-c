@@ -109,7 +109,8 @@ void print_person(Person* person)
 
 
 /*
-Print the pointer information (addresses) associated with the person(node)
+Print the pointer information (addresses) associated with the person(node).
+Mostly for debugging.
 */
 void print_person_pointer(Person* person)
 {
@@ -120,7 +121,7 @@ void print_person_pointer(Person* person)
 /*
 Print the list contents with barriers (makes the list contents easier to read),
 and pointers from each node
-(print the memory contents what the current node points to)
+(print the memory contents what the current node points to).
 */
 void print_list(Person* list)
 {
@@ -256,12 +257,17 @@ void add_person_index(Person** list, const char* name, const int index)
     printf("Index needs to be >= 0. Returning\n");
     return;
   }
+  else if(index > number)
+  {
+    printf("Cannot add past the end of the list.\n");
+    return;
+  }
   else if(index == 0)
   {
     add_person_begin(list, name);
     return;
   }
-  else if(index == number - 1)
+  else if(index == number)
   {
     add_person_end(list, name);
     return;
@@ -305,6 +311,7 @@ void add_person_index(Person** list, const char* name, const int index)
 
 
 /*
+Remove the first element in the list.
 */
 void remove_before(Person** p_list)
 {
@@ -341,6 +348,7 @@ void remove_before(Person** p_list)
 
 
 /*
+Remove the last element in the list.
 */
 void remove_after(Person** p_list)
 {
@@ -372,6 +380,66 @@ void remove_after(Person** p_list)
 
   free(ptr->next_person);
   ptr->next_person = NULL;
+
+  --number;
+}
+
+
+/*
+Remove a node at a particular index.
+*/
+void remove_person_index(Person** list, const int index)
+{
+  // Handle corner case
+  if(number == 0 && index != 0)
+  {
+    printf("Index does not line up with number of elements. Returning\n");
+    return;
+  }
+  
+  // Handle corner cases
+  if(index < 0)
+  {
+    printf("Index needs to be >= 0. Returning\n");
+    return;
+  }
+  else if(index > number)
+  {
+    printf("Cannot remove past the end of the list.\n");
+    return;
+  }
+  else if(index == 0)
+  {
+    remove_before(list);
+    return;
+  }
+  else if(index == number - 1)
+  {
+    remove_after(list);
+    return;
+  }
+  
+  // Carve out space on the heap for the new person's node
+  Person* last_person = traverse_till_index((*list), index - 1);
+  Person* current_person = last_person->next_person;
+
+  // rewire the pointers
+  last_person->next_person = current_person->next_person;
+
+  free(current_person);
+  current_person = NULL;
+
+  // Handle decrementing the elements before the one we inserted into
+  Person* p = traverse_till_index(*list, index - 1);
+
+  while(1)
+  {
+    if(p->next_person == NULL)
+      break;
+
+    p = p->next_person;
+    --p->idx;
+  }
 
   --number;
 }
@@ -419,11 +487,9 @@ int main()
   Person* list = NULL;
   
   add_person_begin(&list, "Peter");
-  add_person_end(&list, "James");
-  add_person_end(&list, "Mark");
   add_person_end(&list, "Luke");
 
-  add_person_index(&list, "Simon", 1);
+  remove_person_index(&list, 10);
   
   print_list(list);
   
@@ -431,4 +497,3 @@ int main()
   
   return 0;
 }
-

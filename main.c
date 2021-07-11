@@ -46,6 +46,7 @@ Person* traverse_till_null(Person* list)
   return n;
 }
 
+
 /*
 Traverse the existing nodes looking for the end of the list
 Return a pointer to the last element in the list (Item that points to NULL)
@@ -69,7 +70,7 @@ Person* traverse_till_index(Person* list, const int index)
       break;
     }
 
-    if (idx == index - 1)
+    if (idx == index)
     {
       break;
     }
@@ -164,6 +165,7 @@ Add a person to the start of the list
 */
 void add_person_begin(Person** list, const char* name)
 {
+  // Create/allocate the base list if we have not already done so
   if(number == 0)
   {
     if(*list == NULL)
@@ -239,15 +241,22 @@ void add_person_end(Person** list, const char* name)
 /*
 Add a new node to a particular index.
 */
-void add_person_index(Person** list, const char* name, const unsigned int index)
-{  
+void add_person_index(Person** list, const char* name, const int index)
+{
+  // Handle corner case
   if(number == 0 && index != 0)
   {
     printf("Index does not line up with number of elements. Returning\n");
     return;
   }
-
-  if(index == 0)
+  
+  // Handle corner cases
+  if(index < 0)
+  {
+    printf("Index needs to be >= 0. Returning\n");
+    return;
+  }
+  else if(index == 0)
   {
     add_person_begin(list, name);
     return;
@@ -260,10 +269,7 @@ void add_person_index(Person** list, const char* name, const unsigned int index)
   
   // Carve out space on the heap for the new person's node
   Person* new_person = (Person*) malloc(sizeof(Person));
-  Person* last_person = traverse_till_index((*list), index);
-
-  printf("last_person:");
-  print_person(last_person);
+  Person* last_person = traverse_till_index((*list), index - 1);
 
   strcpy(new_person->name, name);
   
@@ -271,27 +277,18 @@ void add_person_index(Person** list, const char* name, const unsigned int index)
   new_person->idx = index;
 
   // rewire the pointers
-  printf("Rewiring\n");
-  new_person->next_person = last_person->next_person == NULL ? NULL : last_person->next_person;
+  new_person->next_person = last_person->next_person;
   last_person->next_person = new_person;
 
-  // Handle incrementing
-  Person* p = traverse_till_null(*list);
-
-  if(p->next_person == NULL)
-    return;
-
-  p = p->next_person;
-  ++p->idx;
-
-  printf("Incrementing latter\n");
+  // Handle incrementing the elements after the one we inserted into
+  Person* p = traverse_till_index(*list, index);
   while(1)
   {
     if(p->next_person == NULL)
       break;
 
-    ++p->idx;
     p = p->next_person;
+    ++p->idx;
   }
 
   ++number;
@@ -423,7 +420,10 @@ int main()
   
   add_person_begin(&list, "Peter");
   add_person_end(&list, "James");
-  add_person_index(&list, "Paul", 0);
+  add_person_end(&list, "Mark");
+  add_person_end(&list, "Luke");
+
+  add_person_index(&list, "Simon", 1);
   
   print_list(list);
   

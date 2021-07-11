@@ -30,8 +30,6 @@ Person* traverse_till_null(Person* list)
   {
     if (n->next_person == NULL)
       break;
-      
-//    printf("traversing...\n");
 
     n = n->next_person;
   }
@@ -137,10 +135,21 @@ void add_person_begin(Person** list, const char* name)
   Person* holder = (*list);
 
   strcpy(new_person->name, name);
-  new_person->idx = number;
+  new_person->idx = 0;
 
   new_person->next_person = holder;
   (*list) = new_person;
+
+  // Update the upstream index numbers
+  Person* p = *list;
+  while(1)
+  {
+    if(p->next_person == NULL)
+      break;
+
+    p = p->next_person;
+    ++p->idx;
+  }
 
   ++number;
 }
@@ -167,7 +176,10 @@ void add_person_end(Person** list, const char* name)
   Person* last_person = traverse_till_null((*list));
 
   strcpy(new_person->name, name);
-  new_person->idx = number;
+  
+  // Update index of the new person
+  new_person->idx = last_person->idx + 1;
+  
   new_person->next_person = NULL;
 
   // Point the previous list node to the new node
@@ -205,6 +217,18 @@ void remove_before(Person** p_list)
   list = NULL;
   
   *p_list = next;
+  
+  // Update the upstream index numbers
+  Person* p = *p_list;
+  --p->idx;
+  while(1)
+  {
+    if(p->next_person == NULL)
+      break;
+
+    p = p->next_person;
+    --p->idx;
+  }
   
   --number;
 }
@@ -291,15 +315,17 @@ int main()
   add_person_end(&list, "Paul");
   add_person_begin(&list, "Peter");
   add_person_end(&list, "John");
+  add_person_begin(&list, "James");
   
   print_list(list);
   
-  remove_after(&list);
-  remove_after(&list);
-  
-  add_person_end(&list, "Paul");
+  /*
+  remove_before(&list);
+  remove_before(&list);
+  add_person_begin(&list, "Peter");
   
   print_list(list);
+  */
   
   free_list(&list);
   

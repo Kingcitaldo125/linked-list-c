@@ -2,20 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "main.h"
+
 
 // Keeps track of the number of elements in the list
 static unsigned int number = 0;
-
-
-/*
-The Node structure for the person - basic linked list info
-*/
-typedef struct person
-{
-  char name[120];
-  int idx;
-  struct person* next_person;
-} Person;
 
 
 /*

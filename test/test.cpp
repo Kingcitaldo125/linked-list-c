@@ -1,18 +1,38 @@
 #include <gtest/gtest.h>
 
+
 extern "C" {
-    #include "main.h"
+    #include "ll.h"
 }
 
-static Person* person_list = NULL;
 
-
-TEST(BasicTest, MyTestName1)
+TEST(LList, AddPersonPass1)
 {
-  EXPECT_EQ(0,0);
+  Person* list = NULL;
+  add_person_index(&list, "Person1", 0);
+  free_list(&list);
 }
 
-TEST(LList, AddPersonPass)
+
+TEST(LList, AddPersonPass2)
 {
-  add_person_index(&person_list, "Person1", 0);
+  Person* list = NULL;
+
+  auto p = add_person_begin(&list, "Person1");
+
+  EXPECT_EQ(p, 1);
+
+  p = add_person_end(&list, "Person2");
+
+  EXPECT_EQ(p, 2);
+
+  free_list(&list);
+}
+
+
+int main()
+{
+  testing::InitGoogleTest();
+
+  return RUN_ALL_TESTS();
 }

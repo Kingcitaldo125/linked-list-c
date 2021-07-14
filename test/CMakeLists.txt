@@ -18,6 +18,6 @@ add_executable(app-test test.cpp)
 
 target_link_libraries(app-test ${LLISTS} ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
 
-target_include_directories(app-test PUBLIC ${PROJECT_SRC_DIR}/include ${PROJECT_SRC_DIR}/src)
+target_include_directories(app-test PUBLIC ${PROJECT_SRC_DIR}/include)
 
 add_test(NAME app-test-test COMMAND app-test)

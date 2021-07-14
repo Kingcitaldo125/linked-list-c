@@ -20,6 +20,9 @@ typedef struct person
 Person* traverse_till_null(Person* list);
 Person* traverse_till_index(Person* list, const int index);
 
+int get_size();
+int get_length();
+
 void print_person(Person* person);
 void print_person_pointer(Person* person);
 void print_list(Person* list);

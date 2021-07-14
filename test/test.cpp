@@ -9,8 +9,12 @@ extern "C" {
 TEST(LList, AddPersonPass1)
 {
   Person* list = NULL;
+
   add_person_index(&list, "Person1", 0);
+
   free_list(&list);
+
+  EXPECT_EQ(get_size(), 0);
 }
 
 
@@ -26,8 +30,53 @@ TEST(LList, AddPersonPass2)
 
   EXPECT_EQ(p, 2);
 
-  free_list(&list);
+  auto f = free_list(&list);
+
+  EXPECT_EQ(f, 0);
+
+  EXPECT_EQ(get_size(), 0);
 }
+
+
+TEST(LList, RemovePersonPass)
+{
+  Person* list = NULL;
+
+  auto p = add_person_begin(&list, "Person1");
+
+  auto f = free_list(&list);
+
+  EXPECT_EQ(f, 0);
+
+  EXPECT_EQ(get_size(), 0);
+}
+
+
+TEST(LList, RemovePersonFail)
+{
+  Person* list = NULL;
+
+  auto p = free_list(&list);
+
+  EXPECT_EQ(p, 1);
+  EXPECT_EQ(get_size(), 0);
+
+  list = NULL;
+
+  add_person_begin(&list, "Person1");
+  add_person_begin(&list, "Person2");
+  add_person_begin(&list, "Person3");
+
+  remove_before(&list);
+  remove_before(&list);
+  remove_before(&list);
+  auto r = remove_before(&list);
+
+  EXPECT_EQ(r, -1);
+  EXPECT_EQ(get_size(), 0);
+}
+
+
 
 
 int main()

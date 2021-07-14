@@ -16,8 +16,12 @@ int main()
   remove_person_index(&list, 10);
   
   print_list(list);
+
+  printf("Size: %d\n", get_size());
   
   free_list(&list);
-  
+
+  printf("Size: %d\n", get_size());
+
   return 0;
 }

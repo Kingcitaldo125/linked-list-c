@@ -77,6 +77,33 @@ Person* traverse_till_index(Person* list, const int index)
 /*
 #######################################
 ##########                   ##########
+##########  SIZE FUNCTIONS   ##########
+##########                   ##########
+#######################################
+*/
+
+
+/*
+Return the size of the llist (return number)
+*/
+int get_size()
+{
+  return number;
+}
+
+
+/*
+Return the size of the llist (return get_size() - see above)
+*/
+int get_length()
+{
+  return get_size();
+}
+
+
+/*
+#######################################
+##########                   ##########
 ##########  PRINT FUNCTIONS  ##########
 ##########                   ##########
 #######################################
@@ -310,7 +337,7 @@ int remove_before(Person** p_list)
 {
   Person* list = *p_list;
   
-  if(list == NULL)
+  if(list == NULL || number == 0)
   {
     printf("Cannot remove from an empty list.\n");
     return -1;
@@ -318,22 +345,24 @@ int remove_before(Person** p_list)
   
   printf("Removing Before.\n");
   Person* next = list->next_person;
-  
   free(list);
   list = NULL;
   
   *p_list = next;
   
   // Update the upstream index numbers
-  Person* p = *p_list;
-  --p->idx;
-  while(1)
+  if(NULL != next)
   {
-    if(p->next_person == NULL)
-      break;
-
-    p = p->next_person;
+    Person* p = *p_list;
     --p->idx;
+    while(1)
+    {
+      if(p->next_person == NULL)
+        break;
+
+      p = p->next_person;
+      --p->idx;
+    }
   }
   
   --number;
@@ -348,7 +377,7 @@ int remove_after(Person** p_list)
 {
   Person* list = *p_list;
   
-  if(list == NULL)
+  if(list == NULL || number == 0)
   {
     printf("Cannot remove from an empty list.\n");
     return -1;

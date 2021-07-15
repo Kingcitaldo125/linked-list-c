@@ -1,5 +1,5 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef LL_H
+#define LL_H
 
 /*
 The Node structure for the person - basic linked list info

@@ -37,4 +37,4 @@ int remove_person_index(Person** list, const int index);
 
 int free_list(Person** list);
 
-#endif
+#endif // LL_H

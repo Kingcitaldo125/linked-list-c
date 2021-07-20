@@ -37,7 +37,7 @@ int main()
       scanf("%d", &option);
       switch(option)
       {
-          case 1:
+          case 1: // Add Person Front
           {
               char v[120];
               puts("Enter person name:");
@@ -46,7 +46,7 @@ int main()
               pass = 0;
               break;
           }
-          case 2:
+          case 2: // Add Person End
           {
               char v[120];
               puts("Enter person name:");
@@ -55,7 +55,7 @@ int main()
               pass = 0;
               break;
           }
-          case 3:
+          case 3: // Add Person at Index
           {
               char v[120];
               int idx;
@@ -67,19 +67,19 @@ int main()
               pass = 0;
               break;
           }
-          case 4:
+          case 4: // Remove Person Front
           {
               remove_before(&list);
               pass = 0;
               break;
           }
-          case 5:
+          case 5: // Remove Person End
           {
               remove_after(&list);
               pass = 0;
               break;
           }
-          case 6:
+          case 6: // Remove Person at Index
           {
               int idx;
               puts("Enter index:");
@@ -88,19 +88,19 @@ int main()
               pass = 0;
               break;
           }
-          case 7:
+          case 7: // Print List
           {
               print_list(list);
               pass = 0;
               break;
           }
-          case 8:
+          case 8: // Print Options
           {
               print_options();
               pass = 0;
               break;
           }
-          case 9:
+          case 9: // Quit
           {
               done = 1;
               pass = 0;

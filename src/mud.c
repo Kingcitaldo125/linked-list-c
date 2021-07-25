@@ -26,36 +26,34 @@ int main()
   // The global holder/reference point for all list nodes
   Person* list = NULL;
   int done = 0;
-  int pass = 0;
-  int option;
+  char option;
 
   print_options();
 
   while(!done)
   {
       puts("Enter your choice:");
-      scanf("%d", &option);
+      scanf(" %c", &option);
+      printf("option: %c\n", option);
       switch(option)
       {
-          case 1: // Add Person Front
+          case '1': // Add Person Front
           {
               char v[120];
               puts("Enter person name:");
               scanf("%s", v);
               add_person_begin(&list, v);
-              pass = 0;
               break;
           }
-          case 2: // Add Person End
+          case '2': // Add Person End
           {
               char v[120];
               puts("Enter person name:");
               scanf("%s", v);
               add_person_end(&list, v);
-              pass = 0;
               break;
           }
-          case 3: // Add Person at Index
+          case '3': // Add Person at Index
           {
               char v[120];
               int idx;
@@ -64,57 +62,47 @@ int main()
               puts("Enter index:");
               scanf("%d", &idx);
               add_person_index(&list, v, idx);
-              pass = 0;
               break;
           }
-          case 4: // Remove Person Front
+          case '4': // Remove Person Front
           {
               remove_before(&list);
-              pass = 0;
               break;
           }
-          case 5: // Remove Person End
+          case '5': // Remove Person End
           {
               remove_after(&list);
-              pass = 0;
               break;
           }
-          case 6: // Remove Person at Index
+          case '6': // Remove Person at Index
           {
               int idx;
               puts("Enter index:");
               scanf("%d", &idx);
               remove_person_index(&list, idx);
-              pass = 0;
               break;
           }
-          case 7: // Print List
+          case '7': // Print List
           {
               print_list(list);
-              pass = 0;
               break;
           }
-          case 8: // Print Options
+          case '8': // Print Options
           {
               print_options();
-              pass = 0;
               break;
           }
-          case 9: // Quit
+          case '9': // Quit
           {
               done = 1;
-              pass = 0;
               break;
           }
           default:
           {
-              printf("Cannot interpret command '%d' - quitting\n", option);
+              printf("Cannot interpret command '%c' - quitting\n", option);
               done = 1;
           }
       }
-      ++pass;
-      if(pass > 2)
-        done = 1;
   }
   free_list(&list);
   puts("Goodbye.");

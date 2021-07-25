@@ -34,7 +34,6 @@ int main()
   {
       puts("Enter your choice:");
       scanf(" %c", &option);
-      printf("option: %c\n", option);
       switch(option)
       {
           case '1': // Add Person Front

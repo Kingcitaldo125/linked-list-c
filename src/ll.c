@@ -441,7 +441,8 @@ int remove_person_index(Person** list, const int index)
     return remove_after(list);
   }
   
-  // Carve out space on the heap for the new person's node
+  // Find the person before the person at the index we want to remove
+  // Index should be  N-1 >= idx >= 1
   Person* last_person = traverse_till_index((*list), index - 1);
   Person* current_person = last_person->next_person;
 
@@ -492,6 +493,7 @@ int free_list(Person** list)
       
     nxt = n->next_person;
     free(n);
+    n = NULL;
     n = nxt;
   }
   

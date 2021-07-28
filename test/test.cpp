@@ -77,6 +77,24 @@ TEST(LList, RemovePersonFail)
 }
 
 
+TEST(LList, FreePass)
+{
+  Person* list = NULL;
+
+  EXPECT_EQ(get_size(), 0);
+
+  add_person_begin(&list, "Person1");
+  add_person_begin(&list, "Person2");
+  add_person_begin(&list, "Person3");
+
+  EXPECT_EQ(get_size(), 3);
+  EXPECT_NE(list, nullptr);
+
+  free_list(&list);
+
+  EXPECT_EQ(get_size(), 0);
+  EXPECT_EQ(list, nullptr);
+}
 
 
 int main()

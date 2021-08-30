@@ -11,30 +11,39 @@ typedef struct person
   struct person* next_person;
 } Person;
 
+/*
+The linked list struct
+*/
+typedef struct list
+{
+  unsigned int num_nodes;
+  Person* node;
+} LinkedList;
+
 // ---------------------------------
 // ---------------------------------
 // ----- Function Declarations -----
 // ---------------------------------
 // ---------------------------------
 
-Person* traverse_till_null(Person* list);
-Person* traverse_till_index(Person* list, const int index);
+Person* traverse_till_null(LinkedList* list);
+Person* traverse_till_index(LinkedList* list, const int index);
 
-int get_size();
-int get_length();
+unsigned int get_size(LinkedList* list);
+unsigned int get_length(LinkedList* list);
 
 void print_person(Person* person);
 void print_person_pointer(Person* person);
-void print_list(Person* list);
+void print_list(LinkedList* list);
 
-int add_person_begin(Person** list, const char* name);
-int add_person_end(Person** list, const char* name);
-int add_person_index(Person** list, const char* name, const int index);
+unsigned int add_person_begin(LinkedList* list, const char* name);
+unsigned int add_person_end(LinkedList* list, const char* name);
+unsigned int add_person_index(LinkedList* list, const char* name, const int index);
 
-int remove_before(Person** p_list);
-int remove_after(Person** p_list);
-int remove_person_index(Person** list, const int index);
+unsigned int remove_before(LinkedList* list);
+unsigned int remove_after(LinkedList* list);
+unsigned int remove_person_index(LinkedList* list, const int index);
 
-int free_list(Person** list);
+int free_list(LinkedList** list);
 
 #endif // LL_H

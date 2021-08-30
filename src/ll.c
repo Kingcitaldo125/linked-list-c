@@ -5,10 +5,6 @@
 #include "ll.h"
 
 
-// Keeps track of the number of elements in the list
-static unsigned int number = 0;
-
-
 /*
 ###########################################
 ##########                       ##########
@@ -22,9 +18,15 @@ static unsigned int number = 0;
 Traverse the existing nodes looking for the end of the list
 Return a pointer to the last element in the list (Item that points to NULL)
 */
-Person* traverse_till_null(Person* list)
+Person* traverse_till_null(LinkedList* list)
 {
-  Person* n = list;
+  if(get_size(list) == 0)
+  {
+    printf("Cannot traverse an empty list.\n");
+    return NULL;
+  }
+
+  Person* n = list->node;
 
   while(1)
   {
@@ -42,9 +44,15 @@ Person* traverse_till_null(Person* list)
 Traverse the existing nodes looking for the end of the list
 Return a pointer to the last element in the list (Item that points to NULL)
 */
-Person* traverse_till_index(Person* list, const int index)
+Person* traverse_till_index(LinkedList* list, const int index)
 {
-  Person* n = list;
+  if(get_size(list) == 0)
+  {
+    printf("Cannot traverse an empty list.\n");
+    return NULL;
+  }
+
+  Person* n = list->node;
 
   if(index == 0)
   {
@@ -84,20 +92,20 @@ Person* traverse_till_index(Person* list, const int index)
 
 
 /*
-Return the size of the llist (return number)
+Return the size of the llist (return num_nodes)
 */
-int get_size()
+unsigned int get_size(LinkedList* list)
 {
-  return number;
+  return list == NULL ? 0 : list->num_nodes;
 }
 
 
 /*
 Return the size of the llist (return get_size() - see above)
 */
-int get_length()
+unsigned int get_length(LinkedList* list)
 {
-  return get_size();
+  return get_size(list);
 }
 
 
@@ -141,9 +149,9 @@ Print the list contents with barriers (makes the list contents easier to read),
 and pointers from each node
 (print the memory contents what the current node points to).
 */
-void print_list(Person* list)
+void print_list(LinkedList* list)
 {
-  Person* n = list;
+  Person* n = list->node;
   
   if (n == NULL)
   {
@@ -151,7 +159,7 @@ void print_list(Person* list)
     return;
   }
 
-  printf(number == 1 ? "\n%d individual\n" : "\n%d individuals\n", number);
+  printf(list->num_nodes == 1 ? "\n%d individual\n" : "\n%d individuals\n", list->num_nodes);
   
   printf("---------------- ### BEGIN PRINT LIST ### ----------------\n");
   while(1)
@@ -182,34 +190,37 @@ void print_list(Person* list)
 /*
 Add a person to the start of the list
 */
-int add_person_begin(Person** list, const char* name)
+unsigned int add_person_begin(LinkedList* list, const char* name)
 {
   // Create/allocate the base list if we have not already done so
-  if(number == 0)
+  printf("check_nodes\n");
+  if(list->num_nodes == 0)
   {
-    if(*list == NULL)
-      (*list) = (Person*) malloc(sizeof(Person));
+    printf("malloc\n");
+    list->node = (Person*) malloc(sizeof(Person));
 
-    strcpy((*list)->name, name);
-    (*list)->idx = number;
-    (*list)->next_person = NULL;
-    
-    ++number;
-    return number;
+    printf("copy\n");
+    strcpy(list->node->name, name);
+    list->node->idx = list->num_nodes;
+    list->node->next_person = NULL;
+
+    printf("increment\n");
+    ++list->num_nodes;
+    return list->num_nodes;
   }
   
   // Carve out space on the heap for the new person's node
   Person* new_person = (Person*) malloc(sizeof(Person));
-  Person* holder = (*list);
+  Person* holder = list->node;
 
   strcpy(new_person->name, name);
   new_person->idx = 0;
 
   new_person->next_person = holder;
-  (*list) = new_person;
+  list->node = new_person;
 
   // Update the upstream index numbers
-  Person* p = *list;
+  Person* p = list->node;
   while(1)
   {
     if(p->next_person == NULL)
@@ -219,31 +230,35 @@ int add_person_begin(Person** list, const char* name)
     ++p->idx;
   }
 
-  ++number;
+  ++list->num_nodes;
 
-  return number;
+  return list->num_nodes;
 }
 
 
 /*
 Add a person to the end of the list
 */
-int add_person_end(Person** list, const char* name)
+unsigned int add_person_end(LinkedList* list, const char* name)
 {  
-  if(number == 0)
+  if(list->num_nodes == 0)
   {
-    (*list) = (Person*)malloc(sizeof(Person));
-    strcpy((*list)->name, name);
-    (*list)->idx = number;
-    (*list)->next_person = NULL;
-    
-    ++number;
-    return number;
+    printf("malloc\n");
+    list->node = (Person*) malloc(sizeof(Person));
+
+    printf("copy\n");
+    strcpy(list->node->name, name);
+    list->node->idx = list->num_nodes;
+    list->node->next_person = NULL;
+
+    printf("increment\n");
+    ++list->num_nodes;
+    return list->num_nodes;
   }
   
   // Carve out space on the heap for the new person's node
   Person* new_person = (Person*) malloc(sizeof(Person));
-  Person* last_person = traverse_till_null((*list));
+  Person* last_person = traverse_till_null(list);
 
   strcpy(new_person->name, name);
   
@@ -255,18 +270,18 @@ int add_person_end(Person** list, const char* name)
   // Point the previous list node to the new node
   last_person->next_person = new_person;
 
-  ++number;
-  return number;
+  ++list->num_nodes;
+  return list->num_nodes;
 }
 
 
 /*
 Add a new node to a particular index.
 */
-int add_person_index(Person** list, const char* name, const int index)
+unsigned int add_person_index(LinkedList* list, const char* name, const int index)
 {
   // Handle corner case
-  if(number == 0 && index != 0)
+  if((list == NULL || list->num_nodes == 0) && index != 0)
   {
     printf("Index does not line up with number of elements. Returning\n");
     return -1;
@@ -278,7 +293,7 @@ int add_person_index(Person** list, const char* name, const int index)
     printf("Index needs to be >= 0. Returning\n");
     return -1;
   }
-  else if(index > number)
+  else if(index > list->num_nodes)
   {
     printf("Cannot add past the end of the list.\n");
     return -1;
@@ -287,14 +302,14 @@ int add_person_index(Person** list, const char* name, const int index)
   {
     return add_person_begin(list, name);
   }
-  else if(index == number)
+  else if(index == list->num_nodes)
   {
     return add_person_end(list, name);
   }
   
   // Carve out space on the heap for the new person's node
   Person* new_person = (Person*) malloc(sizeof(Person));
-  Person* last_person = traverse_till_index((*list), index - 1);
+  Person* last_person = traverse_till_index(list, index - 1);
 
   strcpy(new_person->name, name);
   
@@ -306,7 +321,7 @@ int add_person_index(Person** list, const char* name, const int index)
   last_person->next_person = new_person;
 
   // Handle incrementing the elements after the one we inserted into
-  Person* p = traverse_till_index(*list, index);
+  Person* p = traverse_till_index(list, index);
   while(1)
   {
     if(p->next_person == NULL)
@@ -316,8 +331,8 @@ int add_person_index(Person** list, const char* name, const int index)
     ++p->idx;
   }
 
-  ++number;
-  return number;
+  ++list->num_nodes;
+  return list->num_nodes;
 }
 
 
@@ -333,27 +348,25 @@ int add_person_index(Person** list, const char* name, const int index)
 /*
 Remove the first element in the list.
 */
-int remove_before(Person** p_list)
-{
-  Person* list = *p_list;
-  
-  if(list == NULL || number == 0)
+unsigned int remove_before(LinkedList* list)
+{  
+  if(list == NULL)
   {
     printf("Cannot remove from an empty list.\n");
     return -1;
   }
   
   printf("Removing Before.\n");
-  Person* next = list->next_person;
+  Person* next = list->node->next_person;
   free(list);
   list = NULL;
   
-  *p_list = next;
+  list->node = next;
   
   // Update the upstream index numbers
   if(NULL != next)
   {
-    Person* p = *p_list;
+    Person* p = list->node;
     --p->idx;
     while(1)
     {
@@ -365,25 +378,23 @@ int remove_before(Person** p_list)
     }
   }
   
-  --number;
-  return number;
+  --list->num_nodes;
+  return list->num_nodes;
 }
 
 
 /*
 Remove the last element in the list.
 */
-int remove_after(Person** p_list)
+unsigned int remove_after(LinkedList* list)
 {
-  Person* list = *p_list;
-  
-  if(list == NULL || number == 0)
+  if(list == NULL)
   {
     printf("Cannot remove from an empty list.\n");
     return -1;
   }
   
-  Person* ptr = list;
+  Person* ptr = list->node;
   
   while(1)
   {
@@ -404,18 +415,18 @@ int remove_after(Person** p_list)
   free(ptr->next_person);
   ptr->next_person = NULL;
 
-  --number;
-  return number;
+  --list->num_nodes;
+  return list->num_nodes;
 }
 
 
 /*
 Remove a node at a particular index.
 */
-int remove_person_index(Person** list, const int index)
+unsigned int remove_person_index(LinkedList* list, const int index)
 {
   // Handle corner case
-  if(number == 0 && index != 0)
+  if(list == NULL && index != 0)
   {
     printf("Index does not line up with number of elements. Returning\n");
     return -1;
@@ -427,7 +438,7 @@ int remove_person_index(Person** list, const int index)
     printf("Index needs to be >= 0. Returning\n");
     return -1;
   }
-  else if(index > number)
+  else if(index > list->num_nodes)
   {
     printf("Cannot remove past the end of the list.\n");
     return -1;
@@ -436,14 +447,14 @@ int remove_person_index(Person** list, const int index)
   {
     return remove_before(list);
   }
-  else if(index == number)
+  else if(index == list->num_nodes)
   {
     return remove_after(list);
   }
   
   // Find the person before the person at the index we want to remove
   // Index should be  N-1 >= idx >= 1
-  Person* last_person = traverse_till_index((*list), index - 1);
+  Person* last_person = traverse_till_index(list, index - 1);
   Person* current_person = last_person->next_person;
 
   // rewire the pointers
@@ -453,7 +464,7 @@ int remove_person_index(Person** list, const int index)
   current_person = NULL;
 
   // Handle decrementing the elements before the one we inserted into
-  Person* p = traverse_till_index(*list, index - 1);
+  Person* p = traverse_till_index(list, index - 1);
 
   while(1)
   {
@@ -464,25 +475,24 @@ int remove_person_index(Person** list, const int index)
     --p->idx;
   }
 
-  --number;
-  return number;
+  --list->num_nodes;
+  return list->num_nodes;
 }
 
 
 /*
 Clear out the list, and free the nodes.
-Set the number to 0 and leave the list pointer
+Set the num_nodes to 0 and leave the list pointer
 in a NULL state.
 */
-int free_list(Person** list)
+int free_list(LinkedList** list)
 {
-  Person* n = *list;
+  Person* n = (*list)->node;
   Person* nxt;
   
-  if(number == 0)
+  if((*list) == NULL)
   {
     printf("List already empty.\n");
-    *list = NULL;
     return 1;
   }
   
@@ -497,8 +507,9 @@ int free_list(Person** list)
     n = nxt;
   }
   
-  number = 0;
-  *list = NULL;
+  (*list)->num_nodes = 0;
+  free((*list));
+  (*list) = NULL;
   printf("Emptied List.\n");
   return 0;
 }

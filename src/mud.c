@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+
 #include "ll.h"
 
 
@@ -24,7 +26,9 @@ Entrypoint.
 int main()
 {
   // The global holder/reference point for all list nodes
-  Person* list = NULL;
+  LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
+  list->num_nodes = 0;
+
   int done = 0;
   char option;
 
@@ -41,7 +45,7 @@ int main()
               char v[120];
               puts("Enter person name:");
               scanf("%s", v);
-              add_person_begin(&list, v);
+              add_person_begin(list, v);
               break;
           }
           case '2': // Add Person End
@@ -49,7 +53,7 @@ int main()
               char v[120];
               puts("Enter person name:");
               scanf("%s", v);
-              add_person_end(&list, v);
+              add_person_end(list, v);
               break;
           }
           case '3': // Add Person at Index
@@ -59,26 +63,26 @@ int main()
               puts("Enter person name:");
               scanf("%s", v);
               puts("Enter index:");
-              scanf("%d", &idx);
-              add_person_index(&list, v, idx);
+              scanf("%d", idx);
+              add_person_index(list, v, idx);
               break;
           }
           case '4': // Remove Person Front
           {
-              remove_before(&list);
+              remove_before(list);
               break;
           }
           case '5': // Remove Person End
           {
-              remove_after(&list);
+              remove_after(list);
               break;
           }
           case '6': // Remove Person at Index
           {
               int idx;
               puts("Enter index:");
-              scanf("%d", &idx);
-              remove_person_index(&list, idx);
+              scanf("%d", idx);
+              remove_person_index(list, idx);
               break;
           }
           case '7': // Print List

@@ -12,7 +12,7 @@ find_package(GTest REQUIRED)
 
 find_library(LLISTS linked_lists
     HINTS ${PROJECT_SRC_DIR}
-    PATH_SUFFIXES /bin /lib /bin/lib)
+    PATH_SUFFIXES /bin /build /lib /bin/lib /build/lib)
 
 add_executable(app-test test.cpp)
 
@@ -21,3 +21,4 @@ target_link_libraries(app-test ${LLISTS} ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARI
 target_include_directories(app-test PUBLIC ${PROJECT_SRC_DIR}/include)
 
 add_test(NAME app-test-test COMMAND app-test)
+

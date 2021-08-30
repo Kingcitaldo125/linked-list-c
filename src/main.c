@@ -17,12 +17,12 @@ int main()
   add_person_begin(list, "Peter");
   printf("add end\n");
   add_person_end(list, "Luke");
-
-  remove_person_index(list, 10);
   
   print_list(list);
 
   printf("Size: %d\n", get_size(list));
+
+  remove_person_index(list, 0);
   
   free_list(&list);
 

@@ -8,25 +8,27 @@ extern "C" {
 
 TEST(LList, AddPersonPass1)
 {
-  Person* list = NULL;
+  LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
+  list->num_nodes = 0;
 
-  add_person_index(&list, "Person1", 0);
+  add_person_index(list, "Person1", 0);
 
   free_list(&list);
 
-  EXPECT_EQ(get_size(), 0);
+  EXPECT_EQ(get_size(list), 0);
 }
 
 
 TEST(LList, AddPersonPass2)
 {
-  Person* list = NULL;
+  LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
+  list->num_nodes = 0;
 
-  auto p = add_person_begin(&list, "Person1");
+  auto p = add_person_begin(list, "Person1");
 
   EXPECT_EQ(p, 1);
 
-  p = add_person_end(&list, "Person2");
+  p = add_person_end(list, "Person2");
 
   EXPECT_EQ(p, 2);
 
@@ -34,65 +36,71 @@ TEST(LList, AddPersonPass2)
 
   EXPECT_EQ(f, 0);
 
-  EXPECT_EQ(get_size(), 0);
+  EXPECT_EQ(get_size(list), 0);
 }
 
 
 TEST(LList, RemovePersonPass)
 {
-  Person* list = NULL;
+  LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
+  list->num_nodes = 0;
 
-  auto p = add_person_begin(&list, "Person1");
+  auto p = add_person_begin(list, "Person1");
 
   auto f = free_list(&list);
 
   EXPECT_EQ(f, 0);
 
-  EXPECT_EQ(get_size(), 0);
+  EXPECT_EQ(get_size(list), 0);
 }
 
 
 TEST(LList, RemovePersonFail)
 {
-  Person* list = NULL;
+  LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
+  list->num_nodes = 0;
 
+  printf("Free");
   auto p = free_list(&list);
 
   EXPECT_EQ(p, 1);
-  EXPECT_EQ(get_size(), 0);
+  EXPECT_EQ(get_size(list), 0);
 
+  printf("NULL LIST");
   list = NULL;
+  printf("ADD");
+  add_person_begin(list, "Person1");
+  add_person_begin(list, "Person2");
+  add_person_begin(list, "Person3");
 
-  add_person_begin(&list, "Person1");
-  add_person_begin(&list, "Person2");
-  add_person_begin(&list, "Person3");
-
-  remove_before(&list);
-  remove_before(&list);
-  remove_before(&list);
-  auto r = remove_before(&list);
+  printf("REMOVE");
+  remove_before(list);
+  remove_before(list);
+  remove_before(list);
+  auto r = remove_before(list);
 
   EXPECT_EQ(r, -1);
-  EXPECT_EQ(get_size(), 0);
+  EXPECT_EQ(get_size(list), 0);
 }
 
 
 TEST(LList, FreePass)
 {
-  Person* list = NULL;
+  LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
+  list->num_nodes = 0;
 
-  EXPECT_EQ(get_size(), 0);
+  EXPECT_EQ(get_size(list), 0);
 
-  add_person_begin(&list, "Person1");
-  add_person_begin(&list, "Person2");
-  add_person_begin(&list, "Person3");
+  add_person_begin(list, "Person1");
+  add_person_begin(list, "Person2");
+  add_person_begin(list, "Person3");
 
-  EXPECT_EQ(get_size(), 3);
+  EXPECT_EQ(get_size(list), 3);
   EXPECT_NE(list, nullptr);
 
   free_list(&list);
 
-  EXPECT_EQ(get_size(), 0);
+  EXPECT_EQ(get_size(list), 0);
   EXPECT_EQ(list, nullptr);
 }
 

@@ -192,6 +192,12 @@ Add a person to the start of the list
 */
 unsigned int add_person_begin(LinkedList* list, const char* name)
 {
+  if(list == NULL)
+  {
+    printf("Cannot add to a NULL list\n");
+    return -1;
+  }
+
   // Create/allocate the base list if we have not already done so
   printf("check_nodes\n");
   if(list->num_nodes == 0)
@@ -241,6 +247,12 @@ Add a person to the end of the list
 */
 unsigned int add_person_end(LinkedList* list, const char* name)
 {  
+  if(list == NULL)
+  {
+    printf("Cannot add to a NULL list\n");
+    return -1;
+  }
+
   if(list->num_nodes == 0)
   {
     printf("malloc\n");
@@ -280,8 +292,14 @@ Add a new node to a particular index.
 */
 unsigned int add_person_index(LinkedList* list, const char* name, const int index)
 {
+  if(list == NULL)
+  {
+    printf("Cannot add to a NULL list\n");
+    return -1;
+  }
+
   // Handle corner case
-  if((list == NULL || list->num_nodes == 0) && index != 0)
+  if(list->num_nodes == 0 && index != 0)
   {
     printf("Index does not line up with number of elements. Returning\n");
     return -1;
@@ -352,14 +370,20 @@ unsigned int remove_before(LinkedList* list)
 {  
   if(list == NULL)
   {
-    printf("Cannot remove from an empty list.\n");
+    printf("Cannot remove from a NULL list.\n");
+    return -1;
+  }
+
+  if(list->num_nodes == 0)
+  {
+    printf("Cannot remove from a empty list.\n");
     return -1;
   }
   
   printf("Removing Before.\n");
   Person* next = list->node->next_person;
-  free(list);
-  list = NULL;
+  free(list->node);
+  list->node = NULL;
   
   list->node = next;
   
@@ -390,7 +414,13 @@ unsigned int remove_after(LinkedList* list)
 {
   if(list == NULL)
   {
-    printf("Cannot remove from an empty list.\n");
+    printf("Cannot remove from a NULL list.\n");
+    return -1;
+  }
+
+  if(list->num_nodes == 0)
+  {
+    printf("Cannot remove from a empty list.\n");
     return -1;
   }
   
@@ -425,8 +455,20 @@ Remove a node at a particular index.
 */
 unsigned int remove_person_index(LinkedList* list, const int index)
 {
+  if(list == NULL)
+  {
+    printf("Cannot remove from a NULL list.\n");
+    return -1;
+  }
+
+  if(list->num_nodes == 0)
+  {
+    printf("Cannot remove from a empty list.\n");
+    return -1;
+  }
+
   // Handle corner case
-  if(list == NULL && index != 0)
+  if(index != 0)
   {
     printf("Index does not line up with number of elements. Returning\n");
     return -1;
@@ -491,6 +533,12 @@ int free_list(LinkedList** list)
   Person* nxt;
   
   if((*list) == NULL)
+  {
+    printf("List already empty(NULL).\n");
+    return 1;
+  }
+
+  if((*list)->num_nodes == 0)
   {
     printf("List already empty.\n");
     return 1;

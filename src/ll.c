@@ -4,6 +4,24 @@
 
 #include "ll.h"
 
+/*
+###########################################
+##########                       ##########
+##########  FACTORY FUNCTION     ##########
+##########                       ##########
+###########################################
+*/
+
+/*
+Factory function to instantiate a new LinkedList.
+Should be cleaned up with the 'free()' function after it's done being used.
+*/
+LinkedList* get_list()
+{
+  LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
+  list->num_nodes = 0;
+  return list;
+}
 
 /*
 ###########################################

@@ -26,6 +26,8 @@ typedef struct list
 // ---------------------------------
 // ---------------------------------
 
+LinkedList* get_list();
+
 Person* traverse_till_null(LinkedList* list);
 Person* traverse_till_index(LinkedList* list, const int index);
 

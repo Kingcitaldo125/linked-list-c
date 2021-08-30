@@ -26,8 +26,7 @@ Entrypoint.
 int main()
 {
   // The global holder/reference point for all list nodes
-  LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
-  list->num_nodes = 0;
+  LinkedList* list = get_list();
 
   int done = 0;
   char option;

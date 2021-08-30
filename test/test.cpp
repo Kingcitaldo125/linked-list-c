@@ -8,8 +8,7 @@ extern "C" {
 
 TEST(LList, AddPersonPass1)
 {
-  LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
-  list->num_nodes = 0;
+  LinkedList* list = get_list();
 
   add_person_index(list, "Person1", 0);
 
@@ -21,8 +20,7 @@ TEST(LList, AddPersonPass1)
 
 TEST(LList, AddPersonPass2)
 {
-  LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
-  list->num_nodes = 0;
+  LinkedList* list = get_list();
 
   auto p = add_person_begin(list, "Person1");
 
@@ -42,8 +40,7 @@ TEST(LList, AddPersonPass2)
 
 TEST(LList, RemovePersonPass)
 {
-  LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
-  list->num_nodes = 0;
+  LinkedList* list = get_list();
 
   auto p = add_person_begin(list, "Person1");
 
@@ -57,8 +54,7 @@ TEST(LList, RemovePersonPass)
 
 TEST(LList, RemovePersonFail)
 {
-  LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
-  list->num_nodes = 0;
+  LinkedList* list = get_list();
 
   printf("Free");
   auto p = free_list(&list);
@@ -86,8 +82,7 @@ TEST(LList, RemovePersonFail)
 
 TEST(LList, FreePass)
 {
-  LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
-  list->num_nodes = 0;
+  LinkedList* list = get_list();
 
   EXPECT_EQ(get_size(list), 0);
 

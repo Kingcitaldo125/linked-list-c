@@ -10,8 +10,7 @@ Entrypoint.
 int main()
 {
   // The global holder/reference point for all list nodes
-  LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
-  list->num_nodes = 0;
+  LinkedList* list = get_list();
   
   printf("add begin\n");
   add_person_begin(list, "Peter");

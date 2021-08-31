@@ -9,7 +9,6 @@ Entrypoint.
 */
 int main()
 {
-  // The global holder/reference point for all list nodes
   LinkedList* list = get_list();
   
   printf("add begin\n");

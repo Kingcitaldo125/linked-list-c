@@ -558,7 +558,8 @@ int free_list(LinkedList** list)
 
   if((*list)->num_nodes == 0)
   {
-    printf("List already empty.\n");
+    printf("List already empty. Setting to NULL.\n");
+    (*list) = NULL;
     return 1;
   }
   

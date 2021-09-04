@@ -95,6 +95,45 @@ TEST(LList, FreePass)
   EXPECT_EQ(list, nullptr);
 }
 
+TEST(LList, MultipleListPass)
+{
+  LinkedList* list_one = get_list();
+  LinkedList* list_two = get_list();
+
+  EXPECT_EQ(get_size(list_one), 0);
+  EXPECT_EQ(get_size(list_two), 0);
+
+  add_person_begin(list_one, "Person1");
+  add_person_begin(list_two, "Person1");
+
+  EXPECT_EQ(get_size(list_one), 1);
+  EXPECT_EQ(get_size(list_two), 1);
+
+  EXPECT_NE(list_one, nullptr);
+  EXPECT_NE(list_two, nullptr);
+
+  add_person_begin(list_one, "Person2");
+
+  EXPECT_EQ(get_size(list_one), 2);
+  EXPECT_EQ(get_size(list_two), 1);
+
+  EXPECT_NE(list_one, nullptr);
+  EXPECT_NE(list_two, nullptr);
+
+  remove_before(list_two);
+
+  EXPECT_EQ(get_size(list_two), 0);
+
+  EXPECT_EQ(free_list(&list_one), 0);
+  EXPECT_EQ(free_list(&list_two), 1);
+
+  EXPECT_EQ(get_size(list_one), 0);
+  EXPECT_EQ(get_size(list_two), 0);
+
+  EXPECT_EQ(list_one, nullptr);
+  EXPECT_EQ(list_two, nullptr);
+}
+
 
 int main()
 {

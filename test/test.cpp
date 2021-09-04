@@ -56,20 +56,16 @@ TEST(LList, RemovePersonFail)
 {
   LinkedList* list = get_list();
 
-  printf("Free");
   auto p = free_list(&list);
 
   EXPECT_EQ(p, 1);
   EXPECT_EQ(get_size(list), 0);
 
-  printf("NULL LIST");
   list = NULL;
-  printf("ADD");
   add_person_begin(list, "Person1");
   add_person_begin(list, "Person2");
   add_person_begin(list, "Person3");
 
-  printf("REMOVE");
   remove_before(list);
   remove_before(list);
   remove_before(list);

@@ -1,2 +1,2 @@
 # linked-list-c
-Basic Linked List in C
+Basic, singly-linked, Linked List in C

@@ -53,3 +53,49 @@ else()
   target_link_libraries(mud PRIVATE ${SHARED_LIB_NAME})
 endif()
 
+
+# Installation
+
+set(EXPORT_NAME ${PROJECT_NAME}_Exports)
+
+if (LINK_STATIC)
+  install(TARGETS
+    ${STATIC_LIB_NAME}
+    EXPORT ${EXPORT_NAME}
+    LIBRARY DESTINATION
+    ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION
+    ${CMAKE_INSTALL_BINDIR}
+    ARCHIVE DESTINATION
+    ${CMAKE_INSTALL_LIBDIR}
+  )
+else()
+  install(TARGETS
+    ${SHARED_LIB_NAME}
+    EXPORT ${EXPORT_NAME}
+    LIBRARY DESTINATION
+    ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION
+    ${CMAKE_INSTALL_BINDIR}
+    ARCHIVE DESTINATION
+    ${CMAKE_INSTALL_LIBDIR}
+  )
+endif()
+
+install(EXPORT
+  ${EXPORT_NAME}
+  NAMESPACE
+  linked_lists::
+  DESTINATION
+  ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}-${PROJECT_VERSION}
+  )
+
+## Install headers ############################################################
+
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+  FILES_MATCHING
+  PATTERN *.h
+  PATTERN *.hpp
+)
+

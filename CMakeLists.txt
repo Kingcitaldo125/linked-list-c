@@ -27,10 +27,6 @@ else()
   add_library(${SHARED_LIB_NAME} SHARED ${CMAKE_SOURCE_DIR}/src/ll.c)
 endif()
 
-# Install information
-# Includes
-include(GNUInstallDirs)
-
 if (LINK_STATIC)
   target_include_directories(${STATIC_LIB_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
@@ -58,6 +54,7 @@ else()
 endif()
 
 # Write CMake package config files
+include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 configure_package_config_file(
@@ -75,7 +72,8 @@ write_basic_package_version_file(
 
 set(EXPORT_NAME ${PROJECT_NAME}_Exports)
 
-# Installation
+## Installation ##
+## Install targets(lib) ##
 if (LINK_STATIC)
   install(TARGETS
     ${STATIC_LIB_NAME}
@@ -94,7 +92,7 @@ else()
   )
 endif()
 
-## Install headers ############################################################
+## Install headers ##
 
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
@@ -103,6 +101,7 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/
   PATTERN *.hpp
 )
 
+## Install export ##
 install(EXPORT
   ${EXPORT_NAME}
   NAMESPACE
@@ -111,10 +110,10 @@ install(EXPORT
   ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}-${PROJECT_VERSION}
 )
 
+## Install config and version files ##
 install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
 DESTINATION
   ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}-${PROJECT_VERSION}
 )
-

@@ -1,0 +1,8 @@
+@PACKAGE_INIT@
+
+set(LINKED_LIST_C_VERSION "@LINKED_LIST_C_VERSION@")
+
+include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@_Exports.cmake")
+
+check_required_components("@PROJECT_NAME@")
+

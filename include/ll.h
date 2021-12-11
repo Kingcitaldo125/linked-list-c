@@ -46,7 +46,7 @@ unsigned int remove_before(LinkedList* list);
 unsigned int remove_after(LinkedList* list);
 unsigned int remove_person_index(LinkedList* list, const int index);
 
-Person* reverse_list(LinkedList** list);
+void reverse_list(LinkedList** list);
 int free_list(LinkedList** list);
 
 #endif // LL_H

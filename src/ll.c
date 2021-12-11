@@ -540,34 +540,53 @@ unsigned int remove_person_index(LinkedList* list, const int index)
 }
 
 /*
+#######################################
+##########                   ##########
+########## UTILITY FUNCTIONS ##########
+##########                   ##########
+#######################################
 */
-Person* reverse_list(LinkedList** list)
+
+/*
+Reverse the linked list.
+Sets the head of the 'list' to the new, reversed, head.
+*/
+void reverse_list(LinkedList** list)
 {
   Person* head = (*list)->node;
   Person* prev = NULL;
-  SinglyLinkedListNode* prev = nullptr;
 
-  if((*list) == NULL)
+  if(head == NULL)
   {
     printf("List already empty(NULL).\n");
-    return 1;
+    return;
   }
 
   while(1)
   {
-    if(head->next == NULL)
+    if(head->next_person == NULL)
     {
-        head->next = prev;
-        break;
+      head->next_person = prev;
+      head->next_person->idx = 1;
+      break;
     }
 
-    Person* tmp = head->next;
-    head->next = prev;
+    Person* tmp = head->next_person;
+    int idx_tmp = tmp->idx;
+
+    head->next_person = prev;
+
+    if(head->next_person != NULL)
+      head->next_person->idx = tmp->idx;
+
+    tmp->idx = head->idx;
+    head->idx = idx_tmp;
+
     prev = head;
     head = tmp;
   }
 
-  return head;
+  (*list)->node = head;
 }
 
 /*

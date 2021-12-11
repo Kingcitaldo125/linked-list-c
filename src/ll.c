@@ -539,6 +539,36 @@ unsigned int remove_person_index(LinkedList* list, const int index)
   return list->num_nodes;
 }
 
+/*
+*/
+Person* reverse_list(LinkedList** list)
+{
+  Person* head = (*list)->node;
+  Person* prev = NULL;
+  SinglyLinkedListNode* prev = nullptr;
+
+  if((*list) == NULL)
+  {
+    printf("List already empty(NULL).\n");
+    return 1;
+  }
+
+  while(1)
+  {
+    if(head->next == NULL)
+    {
+        head->next = prev;
+        break;
+    }
+
+    Person* tmp = head->next;
+    head->next = prev;
+    prev = head;
+    head = tmp;
+  }
+
+  return head;
+}
 
 /*
 Clear out the list, and free the nodes.

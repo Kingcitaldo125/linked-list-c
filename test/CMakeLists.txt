@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(linked_lists VERSION 1.0)
+project(linked_lists VERSION 1.4.0)
 
 set(PROJECT_SRC_DIR "${CMAKE_SOURCE_DIR}/../")
 set(TEST_DIRECTORY "${CMAKE_SOURCE_DIR}")

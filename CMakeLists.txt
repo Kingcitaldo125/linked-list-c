@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(linked-list-c VERSION 1.2.1 LANGUAGES C)
+project(linked-list-c VERSION 1.4.0 LANGUAGES C)
 
 set(LINKED_LIST_C_VERSION ${PROJECT_VERSION})
 
